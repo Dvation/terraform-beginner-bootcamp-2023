@@ -1,5 +1,32 @@
 # Terraform Beginner Bootcamp 2023
 
+## Feature Branches
+**Create a new branch and check it out**
+`git checkout -b 1_semantic_versioning`
+- the `-b` tells git to create a new branch with the given name and immediately switch to that branch
+- the first `push` you do will give you an error about *no upstream branch* - just execute the the command given in the error
+	- *Explicit Push*
+		- `git push origin [your branch name]`
+		- tells git to push that specific branch to that specific remote
+	- *Simple Push*
+		- `git push`
+		- git will push to the set upstream branch for your current branch, if you've set it:
+			- `git branch --set-upstream-to=origin/[branch name]`
+		- If not set and the `push.default` config is set to default (matching), Git will push branches to the remote that have matching names. In this mode, if a branch of the same name <u>doesn't exist</u> on the remote or the names don't match, the push will fail.
+
+**Merging the branch**
+First, checkout the branch you want to merge into (typically 'main')
+`git checkout main`
+Then run the merge command where branch name is the name of the branch merging into main
+`git merge <branch name>`
+- Once merged, you can delete the branch
+
+**Other Commands**
+`git fetch origin`
+- updates your local repo if there are new/deleted branches in the remote repo (often referred to as '*origin*') 
+- gets the latest state of all branches and commits
+- crucial to have the latest changes from remote before merging
+- *important command to run before attempting a merge*
 
 ## Semantic Versioning
 https://semver.org/
