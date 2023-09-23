@@ -109,3 +109,22 @@ https://en.wikipedia.org/wiki/Chmod
 We need to be careful when using the Init because it will not rerun if we restart an existing workspace.
 
 https://www.gitpod.io/docs/configure/workspaces/tasks
+
+
+## Environment Variables
+
+- Typing `env` in bash will show all environment variables current set
+- `env | grep <string>` can filter for a specific env var
+- `echo $ENV_VAR` will print the value of a specific env var
+- `export ENV_VAR='VALUE'` will set an env var, `unset` removes it
+- Simply running `ENV_VAR='VALUE'` temporarily sets an env var for that session
+	- bash profiles can be used for permanent assignments
+
+### GitPod Env Vars (Persistent)
+`gp env HELLO='world'`
+- Future workspaces launched will set the env vars for all bash terminals 
+
+#### Env Var Reference
+- Create a `.env.example` file in the root
+- Set the variable in the file, e.g. `PROJEC_ROOT='/workspace/terraform-beginner-bootcamp-2023'`
+- This will let other users know what the env var is set to
