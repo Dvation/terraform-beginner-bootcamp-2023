@@ -128,3 +128,21 @@ https://www.gitpod.io/docs/configure/workspaces/tasks
 - Create a `.env.example` file in the root
 - Set the variable in the file, e.g. `PROJEC_ROOT='/workspace/terraform-beginner-bootcamp-2023'`
 - This will let other users know what the env var is set to
+
+
+# Terraform Basics
+- Run `terraform` on its own to show a list of all terraform commands
+- `terraform init` downloads the binaries for the terraform providers to the `.terraform` folder
+- `terraform.lock.hcl` contains the locked versioning for the providers or modules that should be used 
+- `terraform.tfstate.backup` is the previous state file
+
+# Terraform Registry
+Contains providers and modules from [registry.terraform.io](https://registry.terraform.io/)
+# Outputs
+```hcl
+output "instance_ip_addr" {
+  value = aws_instance.server.private_ip
+}
+```
+- Will output some value after running a `terraform apply`
+- Can manually run `terraform output` to see output values after having already run `terraform apply`
