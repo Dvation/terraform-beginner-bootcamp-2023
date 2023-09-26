@@ -146,3 +146,69 @@ output "instance_ip_addr" {
 ```
 - Will output some value after running a `terraform apply`
 - Can manually run `terraform output` to see output values after having already run `terraform apply`
+
+
+# Terraform AWS Provider Authentication
+Configuration for the AWS Provider can be derived from several sources, which are applied in the following order:
+
+1. Parameters in the provider configuration
+2. Environment variables
+3. Shared credentials files
+4. Shared configuration files
+5. Container credentials
+6. Instance profile credentials and region
+
+# Terraform Errors
+- `The following dependency selections recorded in the lock file are inconsistent with the current configuration`
+	- Provider configuration has changed since the last `terraform init`, running `terraform init -upgrade` will update the new provider configuration. 
+
+# Terraform Cloud Pricing
+https://www.hashicorp.com/products/terraform/pricing
+Free up to 500 resources per month
+No credit card required
+
+# Terraform Cloud Workspace
+**Workspace:** A workspace contains your Terraform configuration (infrastructure as code), shared variable values, your current and historical Terraform state, and run logs.
+**Project:** Projects let you organize your workspaces into groups.
+- Each project has a separate permissions set.
+	- Project-level permissions are more granular than organization-level permissions
+	- Project-level permissions are more specific than individual workspace-level grants.
+	- [!] **Note:** Projects are available to all users, but managing project permissions requires the Terraform Cloud **Standard** Edition.
+	- [i] When deciding how to structure your projects, consider which groups of resources need distinct access rules. You may wish to define projects by business units, departments, subsidiaries, or technical teams.
+
+# Terraform Token
+[Create a token](https://app.terraform.io/app/settings/tokens) for authenticating terraform cloud via the CLI using `terraform login` which is required when using the cloud terraform block e.g.:
+```hcl
+terraform {
+  cloud {
+    organization = "dvation"
+
+    workspaces {
+      name = "terra-house-1"
+    }
+  }
+}
+```
+
+> **Migrate state to Terraform Cloud**
+> https://developer.hashicorp.com/terraform/tutorials/cloud/cloud-migrate
+
+# Terraform Cloud Login with Gitpod
+Running `terraform login` generates a menu that doesn't render correctly in gitpod. 
+**Workaround:** 
+- generate a [token](https://app.terraform.io/app/settings/tokens) 
+- create and open:
+	- `touch /home/gitpod/.terraform.d/credential.tfrc.json`
+	- `open /home/gitpod/.terraform.d/credential.tfrc.json`
+- Add your token to the file:
+```json
+{
+ "credentials": {
+   "app.terraform.io": {
+     "token": "xxxxxx.atlasv1.zzzzzzzzzzzzz"
+     }
+  }
+}
+```
+- Run `terraform init` after setting credentials
+- Should terraform migrate your existing state? **YES**

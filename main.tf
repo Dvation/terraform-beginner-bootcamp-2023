@@ -9,6 +9,13 @@ terraform {
       version = "3.5.1"
     }
   }
+  cloud {
+    organization = "dvation"
+
+    workspaces {
+      name = "terra-house-1"
+    }
+  }  
 }
 
 provider "aws" {
