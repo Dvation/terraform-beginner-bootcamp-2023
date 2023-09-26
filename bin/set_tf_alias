@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+ALIAS_STRING='alias tf="terraform"'
+
+if grep -q "$ALIAS_STRING" ~/.bash_profile; then
+    echo "Alias already exists in .bash_profile."
+else
+    echo "$ALIAS_STRING" >> ~/.bash_profile
+    echo "Alias added to .bash_profile."
+fi
+
+source ~/.bash_profile

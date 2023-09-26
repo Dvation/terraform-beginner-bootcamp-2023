@@ -227,3 +227,9 @@ Example of the credentials file contents:
 }
 ```
 
+# Terraform Alias
+- `open ~/.bash_profile` is where we can set bash configurations
+- add the line `alias tf="terraform"` so that running `tf` in bash will call `terraform`
+- bash needs to be reloaded to take affect: `source ~/.bash_profile`
+- use ChatGPT to generate a bash script to automate this (`/bin/set_tf_alias`) 
+- update `.gitpod.yml` to auto-execute on workspace start
