@@ -212,3 +212,18 @@ Running `terraform login` generates a menu that doesn't render correctly in gitp
 ```
 - Run `terraform init` after setting credentials
 - Should terraform migrate your existing state? **YES**
+
+# Automate Terraform Cloud Credentials
+- We used ChatGPT to generate a script (`bin/generate_tfrc_credentials`) to create a credentials file for terraform cloud
+- We used a 30 day token and assigned it to the env var `TERRAFORM_CLOUD_TOKEN`, which was used in the script
+Example of the credentials file contents:
+```
+{
+  "credentials": {
+    "app.terraform.io": {
+      "token": "xxxxxx.atlasv1.zzzzzzzzzzzzz"
+      }
+   }
+}
+```
+
