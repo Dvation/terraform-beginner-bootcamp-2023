@@ -14,17 +14,17 @@
   - [Environment Variables](#environment-variables)
     - [GitPod Env Vars (Persistent)](#gitpod-env-vars-persistent)
       - [Env Var Reference](#env-var-reference)
-- [Terraform Basics](#terraform-basics)
-- [Terraform Registry](#terraform-registry)
-- [Outputs](#outputs)
-- [Terraform AWS Provider Authentication](#terraform-aws-provider-authentication)
-- [Terraform Errors](#terraform-errors)
-- [Terraform Cloud Pricing](#terraform-cloud-pricing)
-- [Terraform Cloud Workspace](#terraform-cloud-workspace)
-- [Terraform Token](#terraform-token)
-- [Terraform Cloud Login with Gitpod](#terraform-cloud-login-with-gitpod)
-- [Automate Terraform Cloud Credentials](#automate-terraform-cloud-credentials)
-- [Terraform Alias](#terraform-alias)
+  - [Terraform Basics](#terraform-basics)
+    - [Terraform Registry](#terraform-registry)
+    - [Outputs](#outputs)
+  - [Terraform AWS Provider Authentication](#terraform-aws-provider-authentication)
+    - [Terraform Errors](#terraform-errors)
+  - [Terraform Cloud Pricing](#terraform-cloud-pricing)
+  - [Terraform Cloud Workspace](#terraform-cloud-workspace)
+    - [Terraform Token](#terraform-token)
+  - [Terraform Cloud Login with Gitpod](#terraform-cloud-login-with-gitpod)
+    - [Automate Terraform Cloud Credentials](#automate-terraform-cloud-credentials)
+  - [Terraform Alias](#terraform-alias)
 
 ## Feature Branches
 **Create a new branch and check it out**
@@ -156,15 +156,15 @@ https://www.gitpod.io/docs/configure/workspaces/tasks
 - This will let other users know what the env var is set to
 
 
-# Terraform Basics
+## Terraform Basics
 - Run `terraform` on its own to show a list of all terraform commands
 - `terraform init` downloads the binaries for the terraform providers to the `.terraform` folder
 - `terraform.lock.hcl` contains the locked versioning for the providers or modules that should be used 
 - `terraform.tfstate.backup` is the previous state file
 
-# Terraform Registry
+### Terraform Registry
 Contains providers and modules from [registry.terraform.io](https://registry.terraform.io/)
-# Outputs
+### Outputs
 ```hcl
 output "instance_ip_addr" {
   value = aws_instance.server.private_ip
@@ -174,7 +174,7 @@ output "instance_ip_addr" {
 - Can manually run `terraform output` to see output values after having already run `terraform apply`
 
 
-# Terraform AWS Provider Authentication
+## Terraform AWS Provider Authentication
 Configuration for the AWS Provider can be derived from several sources, which are applied in the following order:
 
 1. Parameters in the provider configuration
@@ -184,16 +184,16 @@ Configuration for the AWS Provider can be derived from several sources, which ar
 5. Container credentials
 6. Instance profile credentials and region
 
-# Terraform Errors
+### Terraform Errors
 - `The following dependency selections recorded in the lock file are inconsistent with the current configuration`
 	- Provider configuration has changed since the last `terraform init`, running `terraform init -upgrade` will update the new provider configuration. 
 
-# Terraform Cloud Pricing
+## Terraform Cloud Pricing
 https://www.hashicorp.com/products/terraform/pricing
 Free up to 500 resources per month
 No credit card required
 
-# Terraform Cloud Workspace
+## Terraform Cloud Workspace
 **Workspace:** A workspace contains your Terraform configuration (infrastructure as code), shared variable values, your current and historical Terraform state, and run logs.
 **Project:** Projects let you organize your workspaces into groups.
 - Each project has a separate permissions set.
@@ -202,7 +202,7 @@ No credit card required
 	- [!] **Note:** Projects are available to all users, but managing project permissions requires the Terraform Cloud **Standard** Edition.
 	- [i] When deciding how to structure your projects, consider which groups of resources need distinct access rules. You may wish to define projects by business units, departments, subsidiaries, or technical teams.
 
-# Terraform Token
+### Terraform Token
 [Create a token](https://app.terraform.io/app/settings/tokens) for authenticating terraform cloud via the CLI using `terraform login` which is required when using the cloud terraform block e.g.:
 ```hcl
 terraform {
@@ -219,7 +219,7 @@ terraform {
 > **Migrate state to Terraform Cloud**
 > https://developer.hashicorp.com/terraform/tutorials/cloud/cloud-migrate
 
-# Terraform Cloud Login with Gitpod
+## Terraform Cloud Login with Gitpod
 Running `terraform login` generates a menu that doesn't render correctly in gitpod. 
 **Workaround:** 
 - generate a [token](https://app.terraform.io/app/settings/tokens) 
@@ -239,7 +239,7 @@ Running `terraform login` generates a menu that doesn't render correctly in gitp
 - Run `terraform init` after setting credentials
 - Should terraform migrate your existing state? **YES**
 
-# Automate Terraform Cloud Credentials
+### Automate Terraform Cloud Credentials
 - We used ChatGPT to generate a script (`bin/generate_tfrc_credentials`) to create a credentials file for terraform cloud
 - We used a 30 day token and assigned it to the env var `TERRAFORM_CLOUD_TOKEN`, which was used in the script
 Example of the credentials file contents:
@@ -253,7 +253,7 @@ Example of the credentials file contents:
 }
 ```
 
-# Terraform Alias
+## Terraform Alias
 - `open ~/.bash_profile` is where we can set bash configurations
 - add the line `alias tf="terraform"` so that running `tf` in bash will call `terraform`
 - bash needs to be reloaded to take affect: `source ~/.bash_profile`
