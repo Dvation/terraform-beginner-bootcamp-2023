@@ -35,3 +35,41 @@ Generally, the command is:
 We can find *Attribute References* in the same documentation page for the service. These attributes can be referenced in other parts of our terraform (E.g.  `bucket` is reference so we can reference the name using `aws_s3_bucket.bucket_name.arn`)
 
 Similarly, *Argument References* are in the resource block but can also be referenced elsewhere (E.g. `aws_s3_bucket.bucket_name.bucket`)
+
+## Terraform Modules
+Terraform Module Structure: https://developer.hashicorp.com/terraform/language/modules/develop/structure
+
+Terraform modules can be imported from a variety of sources including github, s3 buckets or the terraform registry directly: https://developer.hashicorp.com/terraform/language/modules/sources
+
+### Example Module Imports
+```
+# Local
+module "consul" {
+  source = "./consul"
+}
+
+# Registry
+module "consul" {
+  source = "hashicorp/consul/aws"
+  version = "0.1.0"
+}
+
+```
+
+> [!info]
+> Empty provider blocks are not needed in current versions of terraform
+> ```
+> provider "aws" {
+>  # Configuration options> 
+> }
+>```
+
+## Terraform Refresh
+Terraform **refresh** reconciles the terraform state with the actual infrastructure by *updating the state file to reflect the current state of the infrastructure* as per the provider's API:
+https://developer.hashicorp.com/terraform/cli/commands/refresh
+- this also updates **outputs**
+- primarily used to detect **drift**
+- makes no changes to infrastructure 
+> [!warning] Deprecation Warning
+> `terraform refresh` is deprecated starting with Terraform v0.15 and has been rolled into the `terraform plan` command, however the `refresh` command is still available.
+
