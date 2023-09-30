@@ -7,3 +7,5 @@ variable "user_uuid" {
     error_message = "The user_uuid must be a valid UUID format."
   }
 }
+
+variable "bucket_name" {}
