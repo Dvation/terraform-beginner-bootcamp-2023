@@ -20,7 +20,6 @@ variable "index_html_filepath" {
   }
 }
 
-
 variable "error_html_filepath" {
   description = "The file path for the error.html"
   type        = string

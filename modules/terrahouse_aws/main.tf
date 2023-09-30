@@ -46,4 +46,3 @@ resource "aws_s3_object" "error_html" {
 
   etag = filemd5(var.error_html_filepath)
 }
-
