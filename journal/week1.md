@@ -69,8 +69,10 @@ Terraform **refresh** reconciles the terraform state with the actual infrastruct
 https://developer.hashicorp.com/terraform/cli/commands/refresh
 - this also updates **outputs**
 - primarily used to detect **drift**
-- makes no changes to infrastructure 
-> [!warning] Deprecation Warning
+- makes no changes to infrastructure
+
+> [!WARNING]
+> Deprecation Warning
 > `terraform refresh` is deprecated starting with Terraform v0.15 and has been rolled into the `terraform plan` command, however the `refresh` command is still available.
 
 
