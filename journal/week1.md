@@ -1,3 +1,33 @@
+- [Terraform Beginner Bootcamp 2023 - Week 1](#terraform-beginner-bootcamp-2023---week-1)
+  - [Terraform and Input Variables](#terraform-and-input-variables)
+    - [Terraform Cloud Variables](#terraform-cloud-variables)
+    - [Loading Terraform Input Variables](#loading-terraform-input-variables)
+    - [var-file flag](#var-file-flag)
+    - [terraform.tvfars](#terraformtvfars)
+    - [auto.tfvars](#autotfvars)
+    - [Order of Terraform Variables](#order-of-terraform-variables)
+  - [Terraform Import / Configuration Drift](#terraform-import--configuration-drift)
+  - [Terraform Modules](#terraform-modules)
+    - [Example Module Imports](#example-module-imports)
+  - [Terraform Refresh](#terraform-refresh)
+  - [S3 Static Website Hosting](#s3-static-website-hosting)
+    - [Terraform References to Named Values](#terraform-references-to-named-values)
+    - [Terraform Console](#terraform-console)
+    - [eTags](#etags)
+  - [Terraform Functions](#terraform-functions)
+  - [Content Delivery Network](#content-delivery-network)
+    - [Locals](#locals)
+    - [Content Type](#content-type)
+    - [Working with JSON](#working-with-json)
+  - [Terraform Data and Content Version](#terraform-data-and-content-version)
+    - [Null Resource](#null-resource)
+  - [Invalidate Cache and Local Exec](#invalidate-cache-and-local-exec)
+    - [Provisioners](#provisioners)
+      - [Local-exec](#local-exec)
+      - [Remote-exec](#remote-exec)
+    - [Heredoc Strings](#heredoc-strings)
+    - [Indented Heredocs](#indented-heredocs)
+
 # Terraform Beginner Bootcamp 2023 - Week 1
 
 ## Terraform and Input Variables
@@ -159,3 +189,91 @@ resource "aws_s3_object" "error_html" {
 ### Working with JSON
 - https://developer.hashicorp.com/terraform/language/functions/jsonencode
 - https://developer.hashicorp.com/terraform/language/syntax/json
+
+
+## Terraform Data and Content Version
+> **Goal**: We want to make sure the CDN cache is invalidated when we make a change to our web pages but only the cache that got updated. If we invalidate everything it can get expensive. We can leverage content versions to help with this.
+
+Plain data values such as Local Values and Input Variables don't have any side-effects to plan against and so they aren't valid in 
+replace_triggered_by. You can use terraform_data's behavior of planning an action each time input changes to indirectly use a plain value to trigger replacement.
+
+Changing the Lifecycle of Resources:
+https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle
+- Use `replace_triggered_by` which specifies a list of trigger keys that, when changed, will cause the resource to be replaced, while changes to other trigger keys will only update the resource without replacing it.
+### Null Resource
+`terraform_data` is now used instead of `null_resource`
+https://developer.hashicorp.com/terraform/language/resources/terraform-data
+
+## Invalidate Cache and Local Exec
+### Provisioners
+- Provisioners allows you to execute commands on computer instances (e.g., an AWS CLI command)
+- They are not recommended for use by Hashicorp because configuration management tools such as Ansible are a better fit, but the functionality exists.
+
+> "Provisioners are a last resort": https://developer.hashicorp.com/terraform/language/resources/provisioners/syntax
+#### Local-exec
+- This will execute commands on the machine running the terraform commands
+```
+resource "aws_instance" "web" {
+  # ...
+
+  provisioner "local-exec" {
+    command = "echo The server's IP address is ${self.private_ip}"
+  }
+}
+```
+#### Remote-exec
+- This will execute commands on a machine which you target. You will need to provide credentials such as ssh to get into the machine.  
+```
+resource "aws_instance" "web" {
+  # ...
+
+  # Establishes connection to be used by all
+  # generic remote provisioners (i.e. file/remote-exec)
+  connection {
+    type     = "ssh"
+    user     = "root"
+    password = var.root_password
+    host     = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "puppet apply",
+      "consul join ${aws_instance.web.private_ip}",
+    ]
+  }
+}
+```
+### Heredoc Strings
+Terraform supports a "[heredoc](https://developer.hashicorp.com/terraform/language/expressions/strings)" style of string literal inspired by Unix shell languages, which allows multi-line strings to be expressed more clearly.
+
+```hcl
+<<EOT
+hello
+world
+EOT
+```
+### Indented Heredocs
+The standard heredoc form (shown above) treats all space characters as literal spaces. If you don't want each line to begin with spaces, then each line must be flush with the left margin, which can be awkward for expressions in an indented block:
+
+```hcl
+block {
+  value = <<EOT
+hello
+world
+EOT
+}
+```
+
+To improve on this, Terraform also accepts an _indented_ heredoc string variant that is introduced by the `<<-` sequence:
+
+```hcl
+block {
+  value = <<-EOT
+  hello
+    world
+  EOT
+}
+```
+
+
