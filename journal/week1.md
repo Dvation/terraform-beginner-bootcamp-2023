@@ -27,6 +27,13 @@
       - [Remote-exec](#remote-exec)
     - [Heredoc Strings](#heredoc-strings)
     - [Indented Heredocs](#indented-heredocs)
+  - [Assets Upload and For Each](#assets-upload-and-for-each)
+    - [For Each](#for-each)
+    - [Terraform Console](#terraform-console-1)
+    - [fileset Function](#fileset-function)
+    - [Complex data types](#complex-data-types)
+      - [Collection Types](#collection-types)
+      - [Structural Types](#structural-types)
 
 # Terraform Beginner Bootcamp 2023 - Week 1
 
@@ -276,4 +283,42 @@ block {
 }
 ```
 
+## Assets Upload and For Each
+### For Each
+In Terraform, `for_each` allows you to create multiple instances of a resource or module by iterating over a map or set of values.
+```hcl
+resource "aws_iam_user" "the-accounts" {
+  for_each = toset( ["Todd", "James", "Alice", "Dottie"] )
+  name     = each.key
+}
+```
+
+### Terraform Console
+Note: must run `terraform init` first
+- The `terraform console` command provides an interactive console for evaluating and experimenting with Terraform expressions, primarily for debugging purposes.
+- https://developer.hashicorp.com/terraform/cli/commands/console
+
+### fileset Function
+- https://developer.hashicorp.com/terraform/language/functions/fileset
+- `fileset("${path.root}/public/assets", "**")` should show up what terraform evaluates this as
+- `fileset("${path.root}/public/assets", "*.{jpg,png}")` lets you refine what files are matched
+
+### Complex data types
+- a type that groups multiple values into a single value
+#### Collection Types
+- for grouping similar values
+- List, Map, Set
+#### Structural Types
+- for grouping potentially dissimilar values
+- Tuple, Object
+
+We can use a List and reference items from that list with `each.key` like so:
+```hcl
+resource "aws_s3_bucket_object" "upload_assets" {
+  for_each = fileset("${path.root}/public/assets", "*.{jpg,png}")
+  bucket = aws_s3_bucket.website_bucket.bucket
+  key    = "assets/${each.key}"
+  ...
+}
+```
 
