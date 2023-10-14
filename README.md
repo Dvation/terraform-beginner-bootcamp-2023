@@ -7,4 +7,4 @@
 - [Week 2 Journal](journal/week2.md)
 
 ## Extras
-- ...
+
