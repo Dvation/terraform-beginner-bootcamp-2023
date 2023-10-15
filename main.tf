@@ -36,7 +36,7 @@ creatures and optimizing complex supply chains to ultimately
 build a rocket to return home.
 DESCRIPTION
   domain_name = module.home_factorio_hosting.domain_name
-  town = "missingo"
+  town = "gamers-grotto"
   content_version = var.factorio.content_version
 }
 
