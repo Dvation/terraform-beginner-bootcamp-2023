@@ -8,9 +8,8 @@ terraform {
 }
 
 provider "terratowns" {
-  endpoint = "http://localhost:4567"
-  user_uuid="e328f4ab-b99f-421c-84c9-4ccea042c7d1" 
-  token="9b49b3fb-b8e9-483c-b703-97ba88eef8e0" 
+  endpoint = "http://localhost:4567/api"
+  user_uuid="f14c65e6-a326-4d0d-ba12-0845d36c657c" 
 }
 
 module "terrahouse_aws" {
@@ -21,4 +20,18 @@ module "terrahouse_aws" {
   index_html_filepath = var.index_html_filepath
   content_version = var.content_version
   assets_path = var.assets_path
+}
+
+resource "terratowns_home" "home" {
+  name = "How to play Factorio!"
+  description = <<-DESCRIPTION
+    Factorio is a game where players work to build and manage 
+    factories on an alien planet, automating production processes 
+    to efficiently generate resources while combating native 
+    creatures and optimizing complex supply chains to ultimately 
+    build a rocket to return home.
+DESCRIPTION
+  domain_name = "4jkd1kz.cloudfront.net"
+  town = "gamers-grotto"
+  content_version = 1
 }
