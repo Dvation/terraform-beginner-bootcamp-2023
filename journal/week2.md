@@ -64,3 +64,30 @@ In Terraform, `TF_LOG` is an environment variable that controls the logging leve
 https://developer.hashicorp.com/terraform/language/providers
 > Terraform relies on plugins called providers for interaction with various services and APIs. It is necessary to declare and configure providers within Terraform configurations. The providers extend Terraform's capability by adding resource types and data sources. Providers have their own release and versioning system, separate from Terraform. Terraform Registry is a source of publicly available providers, and provides guidelines on how to use and install providers in Terraform configurations​[1](https://developer.hashicorp.com/terraform/language/providers)​.
 
+## Deploying Terratowns
+
+### Writing Custom Terraform Providers
+https://www.hashicorp.com/blog/writing-custom-terraform-providers
+The blog discusses creating custom providers in Terraform, which serve as logical abstractions of upstream APIs. It delves into the reasons for authoring a custom provider, such as accommodating an internal private cloud or extending existing providers. Additionally, it outlines the local setup required, emphasizing that Terraform providers are plugins distributed as Go binaries, and provides guidance on getting started with Go for this purpose​.
+
+### Creating a Terraform Provider for Just About Anything
+https://www.hashicorp.com/resources/creating-terraform-provider-for-anything
+This resource provides a walkthrough for those interested in creating or contributing to a Terraform provider, guiding them through the necessary steps.
+## Terraform Cloud and Multi Home Refactor
+
+### TF_VAR
+#### Use Case
+Terraform can directly access environment variables that are named using the pattern `TF_VAR_`, for example `TF_VAR_foo=bar` will provide the value `bar` to the variable declared using `variable "foo" {}` .
+
+Accessing environment variable values that are not defined in this manner can be accomplished using the `external` data source.
+Environment variables can be used to set variables. The environment variables must be in the format `TF_VAR_name` and this will be checked last for a value. For example:
+
+```shell
+export TF_VAR_region=us-west-1
+export TF_VAR_ami=ami-049d8641
+export TF_VAR_alist='[1,2,3]'
+export TF_VAR_amap='{ foo = "bar", baz = "qux" }'
+```
+
+For more on how to use `TF_VAR_name` in context, check out the section on [Variable Configuration](https://developer.hashicorp.com/terraform/language/values/variables).
+https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_var_name
