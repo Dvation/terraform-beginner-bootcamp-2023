@@ -1,36 +1,81 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Terraformers!</title>
+    <title>Discover the Engineering Marvels of Factorio</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Roboto', sans-serif;
+            background-color: #1B1C1E;
+            color: #EFEFEF;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+        .intro {
+            max-width: 800px;
+            margin: auto;
+        }
+        .intro img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        .intro p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .gallery {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        h1 {
-            background-color: #4CAF50;
-            padding: 20px 40px;
-            border-radius: 20px;
-            color: #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        .gallery img {
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        footer {
+            background-color: #333;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
 <body>
-    <h1>Hello Terraformers!</h1>
-    <br>
-    <br>
-    <div><img src="/assets/factorio.jpg" width="300"></div>
-    <br>
-    <br>
-    <div><img src="/assets/factorio_ingame.png" width="300"></div>
+    <header>
+        <h1>Embark on a Manufacturing Adventure with Factorio</h1>
+    </header>
+    <main>
+        <div class="intro">
+            <img src="/assets/factorio.jpg" alt="Factorio Cover Art">
+            <p>Factorio is a game in which you build and maintain factories. You will mine resources, research technologies, build infrastructure, automate production and fight alien enemies. Venture into the world of automation and explore the endless possibilities that Factorio offers.</p>
+        </div>
+        <div class="gallery">
+            <img src="/assets/factorio_ingame1.png" alt="Factorio In-Game Screenshot 1">
+            <img src="/assets/factorio_ingame2.png" alt="Factorio In-Game Screenshot 2">
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Factorio Fan Site | Experience the Engineering Odyssey</p>
+    </footer>
 </body>
 </html>
