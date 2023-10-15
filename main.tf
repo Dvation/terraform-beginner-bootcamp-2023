@@ -5,13 +5,13 @@ terraform {
       version = "1.0.0"
     }
   }
+  cloud {
+    organization = "dvation"
+    workspaces {
+      name = "terra-house-1"
+    }
+  }  
 }
-
-# provider "terratowns" {
-#   endpoint = "https://terratowns.cloud/api"
-#   user_uuid="f14c65e6-a326-4d0d-ba12-0845d36c657c" 
-#   token="534ec38a-e038-4f89-9545-f2e0d3bba77c" 
-# }
 
 provider "terratowns" {
   endpoint = var.terratowns_endpoint
@@ -19,14 +19,12 @@ provider "terratowns" {
   token = var.terratowns_access_token
 }
 
-#module "terrahouse_aws" {
-#  source = "./modules/terrahouse_aws"
-#  user_uuid = var.user_uuid
-#  bucket_name = var.bucket_name
-#  index_html_filepath = var.index_html_filepath
-#  error_html_filepath = var.error_html_filepath
-#  content_version = var.content_version
-#}
+module "home_factorio_hosting" {
+  source = "./modules/terrahome_aws"
+  user_uuid = var.teacherseat_user_uuid
+  public_path = var.factorio.public_path
+  content_version = var.factorio.content_version
+}
 
 resource "terratowns_home" "home" {
   name = "How to play Factorio!"
@@ -37,7 +35,25 @@ to efficiently generate resources while combating native
 creatures and optimizing complex supply chains to ultimately 
 build a rocket to return home.
 DESCRIPTION
-  domain_name = module.terrahouse_aws.cloudfront_url
+  domain_name = module.home_factorio_hosting.domain_name
   town = "missingo"
-  content_version = 1
+  content_version = var.factorio.content_version
+}
+
+module "home_payday_hosting" {
+  source = "./modules/terrahome_aws"
+  user_uuid = var.teacherseat_user_uuid
+  public_path = var.payday.public_path
+  content_version = var.payday.content_version
+}
+
+resource "terratowns_home" "home_payday" {
+  name = "Making your Payday Bar"
+  description = <<DESCRIPTION
+Finally, it's payday! Can't wait to see that paycheck hit my account. 
+Hard work pays off, literally!
+DESCRIPTION
+  domain_name = module.home_payday_hosting.domain_name
+  town = "missingo"
+  content_version = var.payday.content_version
 }
